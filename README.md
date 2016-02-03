@@ -176,3 +176,4 @@ To do this, in `22` line we want to listen to the “chat” channel and call em
 Here a simple Socket.io instance with a single listener. The socket.on() method is used to register listeners, while the socket.emit() method is used to trigger the event.
 * We want to import that module to be able to use the mongodb client object in app.js. You can add the following lines of code after the first require(‘’) function calls, such as on line `vi`.
 * `15-21` line we want to connect to the database using the URI we have in the 'mongodb://127.0.0.1:27017/express' and once connected, we want to insert the chat message received in the socket connection.
+* In `4-8` we should make sure to send the last sorted 10 messages received to the server so at the very least we can give them some context. To do that, we need to connect mongo.
