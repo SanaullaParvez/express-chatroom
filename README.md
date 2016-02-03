@@ -1,5 +1,14 @@
+# express-chatroom
 
 Welcome to express-chatroom of the Node.js Tutorial Series: A chatroom for all! In this part, I will explain what node.js is, why you should pay attention to node.js and how to setup your machine.
+
+## Install
+
+```
+git clone git@github.com:SanaullaParvez/express-chatroom.git && cd express-chatroom/
+npm install
+npm run start
+```
 
 ##Node
 
@@ -177,3 +186,35 @@ Here a simple Socket.io instance with a single listener. The socket.on() method 
 * We want to import that module to be able to use the mongodb client object in app.js. You can add the following lines of code after the first require(‘’) function calls, such as on line `vi`.
 * `15-21` line we want to connect to the database using the URI we have in the 'mongodb://127.0.0.1:27017/express' and once connected, we want to insert the chat message received in the socket connection.
 * In `4-8` we should make sure to send the last sorted 10 messages received to the server so at the very least we can give them some context. To do that, we need to connect mongo.
+
+###Powering Up the Send Button
+```
+1.  var socket = io();
+2.  $('#send-message-btn').click(function () {
+3.      var msg = $('#message-box').val();
+4.      socket.emit('chat', msg);
+5.      $('#messages').append($('<p>').text(msg));
+6.      $('#message-box').val('');
+7.      return false;
+8.  });
+9.  socket.on('chat', function (msg) {
+10.     $('#messages').append($('<p>').text(msg));
+11. });
+```
+__Line 1__
+We want to create a socket and we can do that by calling the io() function which is in the socket.io-client.js file.
+
+__Line 2__
+Followed by that, we want to execute a function on the click of the send message button using the jQuery’s $ function and the click event handler.
+
+__Line 3__
+We will get the string value in the message box using jQuery’s $ function.
+
+__Line 4__
+This is where the interesting thing happens, we use the emit function on the socket variable we created in line 1 to send a message on the ‘chat’ channel containing the message box’s value.
+
+__Line 5-7__
+At this point, we will append the message in the message box to the #messages div so that the user can see the message was sent. We will assign the value of the message box to an empty string to clear it up.
+
+__Line 9-10__
+Now we want to make sure to append the message received on the chat channel from other users to the #messages div. The node backend will not resend the message that the client wrote back to itself but that’s alright because we added the message right away in the click function handler.
